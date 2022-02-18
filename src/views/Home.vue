@@ -3,7 +3,7 @@
     <InvoicesHeader class="header" />
     <div class="invoices-container">
       <InvoiceShort
-        v-for="(item, index) in filteredInvoices"
+        v-for="(item, index) in data.data"
         :key="item.id"
         :invoiceItem="item"
         :index="index"
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import Axios from "axios";
 import { mapGetters, mapMutations } from "vuex";
 import InvoicesHeader from "../components/InvoicesHeader.vue";
 import InvoiceShort from "../components/InvoiceShort.vue";
@@ -24,6 +25,11 @@ export default {
     InvoicesHeader,
     InvoiceShort,
   },
+  data() {
+    return {
+      data: {},
+    };
+  },
   computed: {
     ...mapGetters(["filteredInvoices"]),
   },
@@ -32,6 +38,14 @@ export default {
   },
   created() {
     this.SET_EDIT({ status: false });
+    Axios.get("/invoice")
+      .then((r) => {
+        console.log(r);
+        this.data = r.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   },
 };
 </script>
