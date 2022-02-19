@@ -3,7 +3,7 @@
     <InvoicesHeader class="header" />
     <div class="invoices-container">
       <InvoiceShort
-        v-for="(item, index) in data.data"
+        v-for="(item, index) in data"
         :key="item.id"
         :invoiceItem="item"
         :index="index"
@@ -27,7 +27,8 @@ export default {
   },
   data() {
     return {
-      data: {},
+      data: [],
+      currentData: {},
     };
   },
   computed: {
@@ -41,7 +42,8 @@ export default {
     Axios.get("/invoice")
       .then((r) => {
         console.log(r);
-        this.data = r.data;
+        this.data = r.data.data;
+        this.currentData = r.data;
       })
       .catch((e) => {
         console.log(e);

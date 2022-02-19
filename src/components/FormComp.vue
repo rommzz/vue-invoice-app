@@ -3,99 +3,12 @@
     <div class="form-container" v-show="menuIsOpen">
       <h2>New Invoice</h2>
       <form class="form">
-        <h3>Bill From</h3>
-        <div class="input-item">
-          <label
-            class="form__label"
-            :class="{
-              error: $v.invoiceForm.adress.$error,
-            }"
-            for="street"
-          >
-            Street Adress
-          </label>
-          <input
-            class="form__input"
-            :class="{
-              errorborder: $v.invoiceForm.adress.$error,
-            }"
-            v-model.trim="$v.invoiceForm.adress.$model"
-            type="text"
-            name="street"
-            id="street"
-          />
-        </div>
-        <div class="input-group">
-          <div class="input-item">
-            <label
-              class="form__label"
-              :class="{
-                error: $v.invoiceForm.city.$error,
-              }"
-              for="city"
-            >
-              City
-            </label>
-            <input
-              class="form__input"
-              :class="{
-                errorborder: $v.invoiceForm.city.$error,
-              }"
-              v-model.trim="$v.invoiceForm.city.$model"
-              type="text"
-              name="city"
-              id="city"
-            />
-          </div>
-          <div class="input-item">
-            <label
-              class="form__label"
-              :class="{
-                error: $v.invoiceForm.postCode.$error,
-              }"
-              for="postcode"
-            >
-              Post Code
-            </label>
-            <input
-              class="form__input"
-              :class="{
-                errorborder: $v.invoiceForm.postCode.$error,
-              }"
-              v-model.trim="$v.invoiceForm.postCode.$model"
-              type="text"
-              name="postCode"
-              id="postcode"
-            />
-          </div>
-          <div class="input-item">
-            <label
-              class="form__label"
-              :class="{
-                error: $v.invoiceForm.country.$error,
-              }"
-              for="country"
-            >
-              Country
-            </label>
-            <input
-              class="form__input"
-              :class="{
-                errorborder: $v.invoiceForm.country.$error,
-              }"
-              v-model.trim="$v.invoiceForm.country.$model"
-              type="text"
-              name="country"
-              id="country"
-            />
-          </div>
-        </div>
         <h3>Bill To</h3>
         <div class="input-item">
           <label
             class="form__label"
             :class="{
-              error: $v.invoiceForm.clientName.$error,
+              error: $v.invoiceForm.client_name.$error,
             }"
             for="client-name"
           >
@@ -104,11 +17,11 @@
           <input
             class="form__input"
             :class="{
-              errorborder: $v.invoiceForm.clientName.$error,
+              errorborder: $v.invoiceForm.client_name.$error,
             }"
-            v-model.trim="$v.invoiceForm.clientName.$model"
+            v-model.trim="$v.invoiceForm.client_name.$model"
             type="text"
-            name="clientName"
+            name="client_name"
             id="name"
           />
         </div>
@@ -117,7 +30,7 @@
           <label
             class="form__label"
             :class="{
-              error: $v.invoiceForm.clientEmail.$error,
+              error: $v.invoiceForm.client_email.$error,
             }"
             for="client-email"
           >
@@ -126,11 +39,11 @@
           <input
             class="form__input"
             :class="{
-              errorborder: $v.invoiceForm.clientEmail.$error,
+              errorborder: $v.invoiceForm.client_email.$error,
             }"
-            v-model.trim="$v.invoiceForm.clientEmail.$model"
+            v-model.trim="$v.invoiceForm.client_email.$model"
             type="email"
-            name="clientEmail"
+            name="client_email"
             id="client-email"
           />
         </div>
@@ -139,18 +52,18 @@
           <label
             class="form__label"
             :class="{
-              error: $v.invoiceForm.clientAdress.$error,
+              error: $v.invoiceForm.client_address.$error,
             }"
             for="client-street"
           >
-            Client's Adress
+            Client's address
           </label>
           <input
             class="form__input"
             :class="{
-              errorborder: $v.invoiceForm.clientAdress.$error,
+              errorborder: $v.invoiceForm.client_address.$error,
             }"
-            v-model.trim="$v.invoiceForm.clientAdress.$model"
+            v-model.trim="$v.invoiceForm.client_address.$model"
             type="text"
             name="clientStreet"
             id="client-street"
@@ -162,7 +75,7 @@
             <label
               class="form__label"
               :class="{
-                error: $v.invoiceForm.clientCity.$error,
+                error: $v.invoiceForm.client_city.$error,
               }"
               for="client-city"
             >
@@ -171,11 +84,11 @@
             <input
               class="form__input"
               :class="{
-                errorborder: $v.invoiceForm.clientCity.$error,
+                errorborder: $v.invoiceForm.client_city.$error,
               }"
-              v-model.trim="$v.invoiceForm.clientCity.$model"
+              v-model.trim="$v.invoiceForm.client_city.$model"
               type="text"
-              name="clientCity"
+              name="client_city"
               id="client-city"
             />
           </div>
@@ -183,7 +96,7 @@
             <label
               class="form__label"
               :class="{
-                error: $v.invoiceForm.clientPostCode.$error,
+                error: $v.invoiceForm.client_postCode.$error,
               }"
               for="client-postcode"
             >
@@ -192,11 +105,11 @@
             <input
               class="form__input"
               :class="{
-                errorborder: $v.invoiceForm.clientPostCode.$error,
+                errorborder: $v.invoiceForm.client_postCode.$error,
               }"
-              v-model.trim="$v.invoiceForm.clientPostCode.$model"
+              v-model.trim="$v.invoiceForm.client_postCode.$model"
               type="text"
-              name="clientPostcode"
+              name="client_postCode"
               id="client-postcode"
             />
           </div>
@@ -204,7 +117,7 @@
             <label
               class="form__label"
               :class="{
-                error: $v.invoiceForm.clientCountry.$error,
+                error: $v.invoiceForm.client_country.$error,
               }"
               for="client-country"
             >
@@ -213,11 +126,11 @@
             <input
               class="form__input"
               :class="{
-                errorborder: $v.invoiceForm.clientCountry.$error,
+                errorborder: $v.invoiceForm.client_country.$error,
               }"
-              v-model.trim="$v.invoiceForm.clientCountry.$model"
+              v-model.trim="$v.invoiceForm.client_country.$model"
               type="text"
-              name="clientCountry"
+              name="client_country"
               id="client-country"
             />
           </div>
@@ -226,17 +139,17 @@
           <div class="input-item" style="width: 47%">
             <label for="invoice-date"> Invoice Date </label>
             <input
-              v-model="invoiceForm.invoiceDate"
+              v-model="invoiceForm.invoice_date"
               type="date"
-              name="invoiceDate"
+              name="invoice_date"
               id="invoice-date"
             />
           </div>
           <div class="input-item" style="width: 47%">
             <label for="payment-term"> Payment Term </label>
             <select
-              v-model="invoiceForm.paymentTerm"
-              name="paymentTerm"
+              v-model="invoiceForm.payment_term"
+              name="payment_term"
               id="payment-term"
             >
               <option value="one">Next 1 Day</option>
@@ -250,18 +163,18 @@
           <label
             class="form__label"
             :class="{
-              error: $v.invoiceForm.projectDesc.$error,
+              error: $v.invoiceForm.invoice_description.$error,
             }"
             for="desc"
           >
-            Project Description
+            Project invoice_description
           </label>
           <input
             class="form__input"
             :class="{
-              errorborder: $v.invoiceForm.projectDesc.$error,
+              errorborder: $v.invoiceForm.invoice_description.$error,
             }"
-            v-model.trim="$v.invoiceForm.projectDesc.$model"
+            v-model.trim="$v.invoiceForm.invoice_description.$model"
             type="text"
             name="desc"
             id="desc"
@@ -270,17 +183,14 @@
         <div>
           <h2>Item List</h2>
           <div class="added-projects">
-            <div
-              class="project-labels"
-              v-show="invoiceForm.projects.length > 0"
-            >
+            <div class="project-labels" v-show="invoiceForm.items.length">
               <label id="label-name">Item Name</label>
               <label id="label-qty">Qty.</label>
               <label id="label-price">Price</label>
               <label id="label-total">Total</label>
             </div>
             <div
-              v-for="(item, index) in invoiceForm.projects"
+              v-for="(item, index) in invoiceForm.items"
               :key="index"
               class="added-projects-info"
             >
@@ -309,7 +219,7 @@
             <div class="input-item" id="project-name">
               <label
                 :class="{
-                  error: $v.invoiceForm.projects.$error,
+                  error: $v.invoiceForm.items.$error,
                 }"
                 for="item-name"
               >
@@ -317,7 +227,7 @@
               </label>
               <input
                 :class="{
-                  errorborder: $v.invoiceForm.projects.$error,
+                  errorborder: $v.invoiceForm.items.$error,
                 }"
                 v-model="projectItem.name"
                 ref="nextInput"
@@ -338,7 +248,7 @@
             <div class="input-item" id="project-price">
               <label
                 :class="{
-                  error: $v.invoiceForm.projects.$error,
+                  error: $v.invoiceForm.items.$error,
                 }"
                 for="price"
               >
@@ -346,7 +256,7 @@
               </label>
               <input
                 :class="{
-                  errorborder: $v.invoiceForm.projects.$error,
+                  errorborder: $v.invoiceForm.items.$error,
                 }"
                 v-model="projectItem.price"
                 type="number"
@@ -385,6 +295,7 @@
 </template>
 
 <script>
+import Axios from 'axios';
 import { mapMutations, mapState } from "vuex";
 import { FormValidation } from "../mixins/FormValidation";
 
@@ -392,26 +303,7 @@ export default {
   name: "FormComp",
   data() {
     return {
-      invoiceForm: {
-        id: null,
-        adress: null,
-        city: null,
-        postCode: null,
-        country: null,
-        clientName: null,
-        clientEmail: null,
-        clientAdress: null,
-        clientCity: null,
-        clientPostCode: null,
-        clientCountry: null,
-        invoiceDate: new Date(Date.now()).toISOString().slice(0, 10),
-        invoiceDue: null,
-        paymentTerm: "seven",
-        projectDesc: null,
-        projects: [],
-        totalPrice: null,
-        status: "pending",
-      },
+      invoiceForm: this.getClearInvoice(),
       projectItem: {
         name: null,
         quantity: 1,
@@ -422,13 +314,30 @@ export default {
   },
   mixins: [FormValidation],
   computed: {
-    ...mapState(["menuIsOpen", "invoices", "edit"]),
+    ...mapState(["menuIsOpen", "edit"]),
     projectItemTotal() {
       return this.projectItem.quantity * this.projectItem.price;
     },
   },
   methods: {
-    ...mapMutations(["SET_MENU_IS_OPEN", "SET_INVOICES", "INVOICE_UPDATE"]),
+    getClearInvoice() {
+      return {
+        client_name: null,
+        client_email: null,
+        client_address: null,
+        client_city: null,
+        client_postCode: null,
+        client_country: null,
+        invoice_date: new Date(Date.now()).toISOString().slice(0, 10),
+        invoice_due: null,
+        payment_term: "seven",
+        invoice_description: null,
+        items: [],
+        total_price: null,
+        status: "Pending",
+      };
+    },
+    ...mapMutations(["SET_MENU_IS_OPEN"]),
     focusInput() {
       this.$refs.nextInput.focus();
     },
@@ -436,37 +345,41 @@ export default {
       this.projectItem.total =
         this.projectItem.quantity * this.projectItem.price;
       let newProject = { ...this.projectItem };
-      this.invoiceForm.projects.push(newProject);
+      this.invoiceForm.items.push(newProject);
       this.projectItem = { name: "", quantity: 1, price: null, total: null };
       this.focusInput();
     },
     deleteProject(i) {
-      this.invoiceForm.projects.splice(i, 1);
+      this.invoiceForm.items.splice(i, 1);
     },
     saveAsDraft() {
       this.setId();
       this.calculateInvoiceDue();
       this.calculateTotalPrice();
-      let newInvoice = {
-        ...this.invoiceForm,
-        status: "Draft",
-      };
-      this.SET_INVOICES(newInvoice);
       this.SET_MENU_IS_OPEN();
     },
     save() {
-      let validation = this.checkFormValidation();
-      if (validation) {
-        this.setId();
-        this.calculateInvoiceDue();
-        this.calculateTotalPrice();
-        let newInvoice = {
-          ...this.invoiceForm,
-          status: "Pending",
-        };
-        this.SET_INVOICES(newInvoice);
-        this.SET_MENU_IS_OPEN();
-      }
+      // let validation = this.checkFormValidation();
+      // console.log(validation);
+      this.invoiceForm.address = {
+        client_address: this.invoiceForm.client_address,
+        city: this.invoiceForm.client_city,
+        country: this.invoiceForm.client_country,
+        postcode: this.invoiceForm.client_postCode,
+      };
+      console.log(this.invoiceForm);
+      this.calculateInvoiceDue();
+      this.calculateTotalPrice();
+      this.SET_MENU_IS_OPEN();
+      Axios.post("invoice/store", this.invoiceForm)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // if (validation) {
+      // }
     },
     update() {
       let validation = this.checkFormValidation();
@@ -480,24 +393,24 @@ export default {
       }
     },
     calculateInvoiceDue() {
-      let invoiceDate = Date.parse(this.invoiceForm.invoiceDate);
-      let paymentTerm =
-        this.invoiceForm.paymentTerm === "one"
+      let invoice_date = Date.parse(this.invoiceForm.invoice_date);
+      let payment_term =
+        this.invoiceForm.payment_term === "one"
           ? 86400000
-          : this.invoiceForm.paymentTerm === "seven"
+          : this.invoiceForm.payment_term === "seven"
           ? 604800000
-          : this.invoiceForm.paymentTerm === "fourteen"
+          : this.invoiceForm.payment_term === "fourteen"
           ? 1209600000
           : 2592000000;
-      this.invoiceForm.invoiceDue = new Date(invoiceDate + paymentTerm)
+      this.invoiceForm.invoice_due = new Date(invoice_date + payment_term)
         .toISOString()
         .slice(0, 10);
     },
     calculateTotalPrice() {
-      let totalPrice = this.invoiceForm.projects.reduce((acc, curr) => {
+      let total_price = this.invoiceForm.items.reduce((acc, curr) => {
         return acc + curr.total;
       }, 0);
-      this.invoiceForm.totalPrice = totalPrice;
+      this.invoiceForm.total_price = total_price;
     },
     setId() {
       let randomId = `${String.fromCharCode(
@@ -524,26 +437,7 @@ export default {
         );
         this.invoiceForm = JSON.parse(JSON.stringify(invoiceToEdit));
       } else {
-        this.invoiceForm = {
-          id: null,
-          adress: null,
-          city: null,
-          postCode: null,
-          country: null,
-          clientName: null,
-          clientEmail: null,
-          clientAdress: null,
-          clientCity: null,
-          clientPostCode: null,
-          clientCountry: null,
-          invoiceDate: new Date(Date.now()).toISOString().slice(0, 10),
-          invoiceDue: null,
-          paymentTerm: "seven",
-          projectDesc: null,
-          projects: [],
-          totalPrice: null,
-          status: "pending",
-        };
+        this.invoiceForm = this.getClearInvoice();
       }
     },
   },

@@ -3,7 +3,7 @@ import { required } from "vuelidate/lib/validators";
 export const FormValidation = {
   validations: {
     invoiceForm: {
-      adress: {
+      address: {
         required,
       },
       city: {
@@ -15,28 +15,28 @@ export const FormValidation = {
       country: {
         required,
       },
-      clientName: {
+      client_name: {
         required,
       },
-      clientEmail: {
+      client_email: {
         required,
       },
-      clientAdress: {
+      client_address: {
         required,
       },
-      clientCity: {
+      client_city: {
         required,
       },
-      clientPostCode: {
+      client_postCode: {
         required,
       },
-      clientCountry: {
+      client_country: {
         required,
       },
-      projectDesc: {
+      invoice_description: {
         required,
       },
-      projects: {
+      items: {
         required,
       },
     },

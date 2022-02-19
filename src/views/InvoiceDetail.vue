@@ -35,7 +35,7 @@
         >
           Edit
         </button>
-        <button class="btn btn-delete" @click="deleteItem">Delete</button>
+        <button class="btn btn-delete" @click="deleteItem">Delete bro</button>
         <button
           class="btn btn-mark"
           v-if="invoice.status === 'Pending'"
@@ -48,35 +48,35 @@
     <div class="details">
       <div class="project-info">
         <p class="project-id">#{{ invoice.id }}</p>
-        <p class="project-desc">{{ invoice.projectDesc }}</p>
+        <p class="project-desc">{{ invoice.invoice_description }}</p>
       </div>
       <div class="adress">
-        <p class="adress-street">{{ invoice.adress }}</p>
-        <p class="adress-city">{{ invoice.city }}</p>
-        <p class="adress-postcode">{{ invoice.postCode }}</p>
-        <p class="adress-country">{{ invoice.country }}</p>
+        <p class="adress-street">{{ invoice.address.client_address }}</p>
+        <p class="adress-city">{{ invoice.address.city }}</p>
+        <p class="adress-postcode">{{ invoice.address.postcode }}</p>
+        <p class="adress-country">{{ invoice.address.country }}</p>
       </div>
       <div class="date">
         <p class="date-label">Invoice Date</p>
-        <p class="date-body">{{ invoice.invoiceDate }}</p>
+        <p class="date-body">{{ invoice.invoice_date }}</p>
       </div>
       <div class="name">
         <p class="name-label">Bill to:</p>
-        <p class="name-body">{{ invoice.clientName }}</p>
+        <p class="name-body">{{ invoice.client_name }}</p>
       </div>
       <div class="mail">
         <p class="mail-label">Sent to:</p>
-        <p class="mail-body">{{ invoice.clientEmail }}</p>
+        <p class="mail-body">{{ invoice.client_email }}</p>
       </div>
       <div class="due">
         <p class="due-label">Invoice Due</p>
-        <p class="due-body">{{ invoice.invoiceDue }}</p>
+        <p class="due-body">{{ invoice.invoice_due }}</p>
       </div>
       <div class="client-adress">
-        <p class="client-street">{{ invoice.clientAdress }}</p>
-        <p class="client-city">{{ invoice.clientCity }}</p>
-        <p class="client-postcode">{{ invoice.clientPostCode }}</p>
-        <p class="client-country">{{ invoice.clientCountry }}</p>
+        <p class="client-street">{{ invoice.address.address }}</p>
+        <p class="client-city">{{ invoice.address.city }}</p>
+        <p class="client-postcode">{{ invoice.postcode }}</p>
+        <p class="client-country">{{ invoice.country }}</p>
       </div>
       <div class="item-container">
         <p>Item Name</p>
@@ -85,23 +85,23 @@
         <p>Total</p>
         <div
           class="project-item"
-          v-for="(item, index) in invoice.projects"
+          v-for="(item, index) in invoice.items"
           :key="index"
         >
           <p class="prj-text">{{ item.name }}</p>
           <p class="prj-text">{{ item.quantity }}</p>
           <p class="prj-text">
-            &#8378; {{ item.price.toLocaleString("en-US") }}
+            {{ item.price }}
           </p>
           <p class="prj-text">
-            &#8378; {{ item.total.toLocaleString("en-US") }}
+            {{ item.total }}
           </p>
         </div>
       </div>
       <div class="amount">
         <p class="amount-text">Total Amount</p>
         <p class="amount-number">
-          &#8378; {{ invoice.totalPrice.toLocaleString("en-US") }}
+          {{ invoice.total_price }}
         </p>
       </div>
     </div>
@@ -109,22 +109,29 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+import Axios from "axios";
+import { mapMutations } from "vuex";
 export default {
   name: "InvoiceDetail",
   props: {
     id: String,
     index: Number,
   },
-  computed: {
-    ...mapState(["invoices"]),
-    ...mapGetters(["filteredInvoices"]),
-
-    invoice() {
-      return this.filteredInvoices[this.index];
-    },
+  data() {
+    return {
+      invoice: {},
+    };
   },
   methods: {
+    getData() {
+      Axios.get(`/invoice/${this.id}`)
+        .then((res) => {
+          this.invoice = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     ...mapMutations([
       "DELETE_INVOICE",
       "MARK_INVOICE",
@@ -149,6 +156,9 @@ export default {
       this.SET_EDIT({ status: true, id: this.invoice.id });
       this.SET_MENU_IS_OPEN();
     },
+  },
+  created() {
+    this.getData();
   },
 };
 </script>

@@ -1,10 +1,10 @@
 <template>
   <div class="invoice-item" @click="showDetail">
     <p class="id">#{{ invoiceItem.id }}</p>
-    <p class="due">Due: {{ invoiceItem.invoiceDue }}</p>
+    <p class="due">Due: {{ invoiceItem.invoice_due }}</p>
     <p class="name">{{ invoiceItem.clientName }}</p>
     <p class="price">
-      &#8378; {{ invoiceItem.totalPrice.toLocaleString("en-US") }}
+      {{ invoiceItem.total_price }}
     </p>
     <div
       class="status"
