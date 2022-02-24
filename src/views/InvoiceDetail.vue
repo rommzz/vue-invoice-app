@@ -43,7 +43,8 @@
             v-if="invoice.status === 'Pending'"
             @click="markAsPaid"
           >
-            Tandai Sudah Dibayar
+            <clip-loader v-if="paidLoading" color="white" size="12px" />
+            <template v-else> Tandai Sudah Dibayar </template>
           </button>
         </div>
       </div>
@@ -115,10 +116,13 @@
 import Axios from "axios";
 import { mapMutations } from "vuex";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import ClipLoader from "vue-spinner/src/ClipLoader.vue";
+
 export default {
   name: "InvoiceDetail",
   components: {
     PulseLoader,
+    ClipLoader,
   },
   props: {
     id: {
@@ -130,6 +134,7 @@ export default {
     return {
       invoice: {},
       isLoading: true,
+      paidLoading: false,
     };
   },
   methods: {
@@ -164,10 +169,18 @@ export default {
         });
     },
     markAsPaid() {
-      let index = this.invoices.findIndex(
-        (item) => item.id === this.invoice.id
-      );
-      this.MARK_INVOICE(index);
+      this.paidLoading = true;
+      Axios.put(`/invoice/${this.id}/paid`)
+        .then((res) => {
+          console.log(res);
+          this.invoice = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.paidLoading = false;
+        });
     },
     editInvoice() {
       this.SET_EDIT({ status: true, id: this.invoice.id });
