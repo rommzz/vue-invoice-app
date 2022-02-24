@@ -1,9 +1,9 @@
 <template>
   <transition name="slide-fade">
     <div class="form-container" v-show="menuIsOpen">
-      <h2>New Invoice</h2>
+      <h2>Invoice Baru</h2>
       <form class="form">
-        <h3>Bill To</h3>
+        <h3>Tagihan kepada</h3>
         <div class="input-item">
           <label
             class="form__label"
@@ -12,7 +12,7 @@
             }"
             for="client-name"
           >
-            Client's Name
+            Nama Klien
           </label>
           <input
             class="form__input"
@@ -34,7 +34,7 @@
             }"
             for="client-email"
           >
-            Client's Email
+            Email klien
           </label>
           <input
             class="form__input"
@@ -52,18 +52,18 @@
           <label
             class="form__label"
             :class="{
-              error: $v.invoiceForm.client_address.$error,
+              error: $v.invoiceForm.address.client_address.$error,
             }"
             for="client-street"
           >
-            Client's address
+            Alamat Klien
           </label>
           <input
             class="form__input"
             :class="{
-              errorborder: $v.invoiceForm.client_address.$error,
+              errorborder: $v.invoiceForm.address.client_address.$error,
             }"
-            v-model.trim="$v.invoiceForm.client_address.$model"
+            v-model.trim="$v.invoiceForm.address.client_address.$model"
             type="text"
             name="clientStreet"
             id="client-street"
@@ -75,18 +75,18 @@
             <label
               class="form__label"
               :class="{
-                error: $v.invoiceForm.client_city.$error,
+                error: $v.invoiceForm.address.client_city.$error,
               }"
               for="client-city"
             >
-              City
+              Kota / Kabupaten
             </label>
             <input
               class="form__input"
               :class="{
-                errorborder: $v.invoiceForm.client_city.$error,
+                errorborder: $v.invoiceForm.address.client_city.$error,
               }"
-              v-model.trim="$v.invoiceForm.client_city.$model"
+              v-model.trim="$v.invoiceForm.address.client_city.$model"
               type="text"
               name="client_city"
               id="client-city"
@@ -96,18 +96,18 @@
             <label
               class="form__label"
               :class="{
-                error: $v.invoiceForm.client_postCode.$error,
+                error: $v.invoiceForm.address.client_postCode.$error,
               }"
               for="client-postcode"
             >
-              Post Code
+              Kode Pos
             </label>
             <input
               class="form__input"
               :class="{
-                errorborder: $v.invoiceForm.client_postCode.$error,
+                errorborder: $v.invoiceForm.address.client_postCode.$error,
               }"
-              v-model.trim="$v.invoiceForm.client_postCode.$model"
+              v-model.trim="$v.invoiceForm.address.client_postCode.$model"
               type="text"
               name="client_postCode"
               id="client-postcode"
@@ -117,18 +117,18 @@
             <label
               class="form__label"
               :class="{
-                error: $v.invoiceForm.client_country.$error,
+                error: $v.invoiceForm.address.client_country.$error,
               }"
               for="client-country"
             >
-              Country
+              Negara
             </label>
             <input
               class="form__input"
               :class="{
-                errorborder: $v.invoiceForm.client_country.$error,
+                errorborder: $v.invoiceForm.address.client_country.$error,
               }"
-              v-model.trim="$v.invoiceForm.client_country.$model"
+              v-model.trim="$v.invoiceForm.address.client_country.$model"
               type="text"
               name="client_country"
               id="client-country"
@@ -137,7 +137,7 @@
         </div>
         <div class="input-group">
           <div class="input-item" style="width: 47%">
-            <label for="invoice-date"> Invoice Date </label>
+            <label for="invoice-date"> Tanggal Invoice </label>
             <input
               v-model="invoiceForm.invoice_date"
               type="date"
@@ -146,16 +146,16 @@
             />
           </div>
           <div class="input-item" style="width: 47%">
-            <label for="payment-term"> Payment Term </label>
+            <label for="payment-term"> Jangka Waktu Pembayaran </label>
             <select
               v-model="invoiceForm.payment_term"
               name="payment_term"
               id="payment-term"
             >
-              <option value="one">Next 1 Day</option>
-              <option value="seven">Next 7 Days</option>
-              <option value="fourteen">Next 14 Days</option>
-              <option value="thirty" checked>Next 30 Days</option>
+              <option value="one">1 DHari</option>
+              <option value="seven">7 DHari</option>
+              <option value="fourteen">14 Hari</option>
+              <option value="thirty" checked>30 Hari</option>
             </select>
           </div>
         </div>
@@ -167,7 +167,7 @@
             }"
             for="desc"
           >
-            Project Description
+            Deskripsi Proyek
           </label>
           <input
             class="form__input"
@@ -181,12 +181,12 @@
           />
         </div>
         <div>
-          <h2>Item List</h2>
-          <div class="added-projects">
-            <div class="project-labels" v-show="invoiceForm.items.length">
-              <label id="label-name">Item Name</label>
+          <h2>Daftar Item</h2>
+          <div class="added-projects" v-show="invoiceForm.items.length">
+            <div class="project-labels">
+              <label id="label-name">Nama</label>
               <label id="label-qty">Qty.</label>
-              <label id="label-price">Price</label>
+              <label id="label-price">Harga</label>
               <label id="label-total">Total</label>
             </div>
             <div
@@ -223,7 +223,7 @@
                 }"
                 for="item-name"
               >
-                Item Name
+                Nama Item
               </label>
               <input
                 :class="{
@@ -252,7 +252,7 @@
                 }"
                 for="price"
               >
-                Price
+                Harga
               </label>
               <input
                 :class="{
@@ -272,22 +272,22 @@
             </div>
           </div>
           <button class="btn-add-item" @click.prevent="addNewProject">
-            Add New Item
+            Tambah Item Baru
           </button>
         </div>
       </form>
       <div class="btn-container">
-        <button class="btn-discard" @click="SET_MENU_IS_OPEN">Discard</button>
+        <button class="btn-discard" @click="SET_MENU_IS_OPEN">Buang</button>
         <div>
           <button v-show="!edit.status" class="btn-draft" @click="saveAsDraft">
-            Save as Draft
+            Simpan Sebagai Draft
           </button>
           <button v-show="!edit.status" class="btn-save" @click="save">
             <clip-loader size="12px" v-if="isLoading" color="#fff" />
-            <template v-else> Save & Send </template>
+            <template v-else> Simpan </template>
           </button>
           <button v-show="edit.status" class="btn-save" @click="update">
-            Save Changes
+            Simpan Perubahan
           </button>
         </div>
       </div>
@@ -330,10 +330,12 @@ export default {
       return {
         client_name: null,
         client_email: null,
-        client_address: null,
-        client_city: null,
-        client_postCode: null,
-        client_country: null,
+        address: {
+          client_address: null,
+          client_city: null,
+          client_postCode: null,
+          client_country: null,
+        },
         invoice_date: new Date(Date.now()).toISOString().slice(0, 10),
         invoice_due: null,
         payment_term: "seven",
@@ -359,24 +361,15 @@ export default {
       this.invoiceForm.items.splice(i, 1);
     },
     saveAsDraft() {
-      this.setId();
-      this.calculateInvoiceDue();
-      this.calculateTotalPrice();
-      this.SET_MENU_IS_OPEN();
+      this.invoiceForm.status = "Draft";
+      this.save();
     },
     save() {
       this.isLoading = true;
       // let validation = this.checkFormValidation();
       // console.log(validation);
-      this.invoiceForm.address = {
-        client_address: this.invoiceForm.client_address,
-        city: this.invoiceForm.client_city,
-        country: this.invoiceForm.client_country,
-        postcode: this.invoiceForm.client_postCode,
-      };
       this.calculateInvoiceDue();
       this.calculateTotalPrice();
-      this.SET_MENU_IS_OPEN();
       Axios.post("invoice/store", this.invoiceForm)
         .then((res) => {
           console.log(res);
@@ -390,29 +383,22 @@ export default {
         });
     },
     update() {
-			this.isLoading = true;
+      this.isLoading = true;
       // let validation = this.checkFormValidation();
       // console.log(validation);
-      this.invoiceForm.address = {
-        client_address: this.invoiceForm.client_address,
-        city: this.invoiceForm.client_city,
-        country: this.invoiceForm.client_country,
-        postcode: this.invoiceForm.client_postCode,
-      };
       this.calculateInvoiceDue();
       this.calculateTotalPrice();
-      this.SET_MENU_IS_OPEN();
-			Axios.put(`invoice/${this.edit.id}/update`, this.invoiceForm)
-				.then((res) => {
-					console.log(res);
-					this.SET_MENU_IS_OPEN();
-				})
-				.catch((err) => {
-					console.log(err);
-				})
-				.finally(() => {
-					this.isLoading = false;
-				});
+      Axios.put(`invoice/${this.edit.id}/update`, this.invoiceForm)
+        .then((res) => {
+          console.log(res);
+          this.SET_MENU_IS_OPEN();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
     calculateInvoiceDue() {
       let invoice_date = Date.parse(this.invoiceForm.invoice_date);
@@ -471,10 +457,6 @@ export default {
             this.invoiceForm.items.forEach((item) => {
               item.total = item.quantity * item.price;
             });
-            this.invoiceForm.client_address = this.invoiceForm.address.client_address;
-            this.invoiceForm.client_city = this.invoiceForm.address.city;
-            this.invoiceForm.client_country = this.invoiceForm.address.country;
-            this.invoiceForm.client_postCode = this.invoiceForm.address.postcode;
             this.focusInput();
           })
           .catch((err) => {

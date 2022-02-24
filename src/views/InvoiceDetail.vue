@@ -11,7 +11,7 @@
           d="M730.6 18.4l-505.4 505.2 505.4 505.4 144.8-144.8-360.6-360.6 360.6-360.4z"
         ></path>
       </svg>
-      <span class="back-text">Go Back</span>
+      <span class="back-text">Beranda</span>
     </router-link>
     <pulse-loader class="loader" color="#fff" v-if="isLoading" />
     <template v-else>
@@ -37,13 +37,13 @@
           >
             Edit
           </button>
-          <button class="btn btn-delete" @click="deleteItem">Delete</button>
+          <button class="btn btn-delete" @click="deleteItem">Hapus</button>
           <button
             class="btn btn-mark"
             v-if="invoice.status === 'Pending'"
             @click="markAsPaid"
           >
-            Mark as Paid
+            Tandai Sudah Dibayar
           </button>
         </div>
       </div>
@@ -54,24 +54,24 @@
         </div>
         <div class="adress">
           <p class="adress-street">{{ invoice.address.client_address }}</p>
-          <p class="adress-city">{{ invoice.address.city }}</p>
-          <p class="adress-postcode">{{ invoice.address.postcode }}</p>
-          <p class="adress-country">{{ invoice.address.country }}</p>
+          <p class="adress-city">{{ invoice.address.client_city }}</p>
+          <p class="adress-postcode">{{ invoice.address.client_postCode }}</p>
+          <p class="adress-country">{{ invoice.address.client_country }}</p>
         </div>
         <div class="date">
-          <p class="date-label">Invoice Date</p>
+          <p class="date-label">Tanggal Invoice</p>
           <p class="date-body">{{ invoice.invoice_date }}</p>
         </div>
         <div class="name">
-          <p class="name-label">Bill to:</p>
+          <p class="name-label">Tagihan Kepada:</p>
           <p class="name-body">{{ invoice.client_name }}</p>
         </div>
         <div class="mail">
-          <p class="mail-label">Sent to:</p>
+          <p class="mail-label">Dikirim Ke:</p>
           <p class="mail-body">{{ invoice.client_email }}</p>
         </div>
         <div class="due">
-          <p class="due-label">Invoice Due</p>
+          <p class="due-label">Jatuh Tempo</p>
           <p class="due-body">{{ invoice.invoice_due }}</p>
         </div>
         <div class="client-adress">
@@ -81,9 +81,9 @@
           <p class="client-country">{{ invoice.country }}</p>
         </div>
         <div class="item-container">
-          <p>Item Name</p>
+          <p>NamaItem</p>
           <p>QTY.</p>
-          <p>Price</p>
+          <p>Harga</p>
           <p>Total</p>
           <div
             class="project-item"
@@ -101,7 +101,7 @@
           </div>
         </div>
         <div class="amount">
-          <p class="amount-text">Total Amount</p>
+          <p class="amount-text">Jumlah Total</p>
           <p class="amount-number">
             {{ invoice.total_price }}
           </p>
@@ -121,7 +121,9 @@ export default {
     PulseLoader,
   },
   props: {
-    id: String,
+    id: {
+      default: null,
+    },
     index: Number,
   },
   data() {

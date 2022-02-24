@@ -1,7 +1,7 @@
 <template>
   <div class="invoice-item" @click="showDetail">
     <p class="id">#{{ invoiceItem.id }}</p>
-    <p class="due">Due: {{ invoiceItem.invoice_due }}</p>
+    <p class="due">Jatuh Tempo: {{ invoiceItem.invoice_due }}</p>
     <p class="name">{{ invoiceItem.clientName }}</p>
     <p class="price">
       {{ invoiceItem.total_price }}

@@ -2,13 +2,11 @@
   <div class="invoices-header">
     <div class="title">
       <h1 class="title-name">Invoices</h1>
-      <p class="title-total">
-        There are {{ filteredInvoices.length }} invoices
-      </p>
+      <p class="title-total">Total invoice: {{ filteredInvoices.length }}</p>
     </div>
     <div class="filter" ref="filter">
       <div @click="filterIsOpen = !filterIsOpen" class="filter-btn">
-        Filter By Status
+        Filter Berdasarkan Status
       </div>
       <div v-show="filterIsOpen" class="filter-body">
         <div class="filter-item">
@@ -36,12 +34,12 @@
             value="Paid"
             v-model="selectedFilter"
           />
-          <label for="paid">Paid</label>
+          <label for="paid">Terbayar</label>
         </div>
       </div>
     </div>
     <button class="add-invoice" @click="SET_MENU_IS_OPEN">
-      New <span class="remove">Invoice</span><span class="symbol">+</span>
+      Buat <span class="remove">Invoice</span><span class="symbol">+</span>
     </button>
   </div>
 </template>

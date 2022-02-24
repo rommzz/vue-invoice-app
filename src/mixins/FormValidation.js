@@ -4,7 +4,18 @@ export const FormValidation = {
   validations: {
     invoiceForm: {
       address: {
-        required,
+        client_address: {
+          required,
+        },
+        client_city: {
+          required,
+        },
+        client_postCode: {
+          required,
+        },
+        client_country: {
+          required,
+        },
       },
       city: {
         required,
@@ -19,18 +30,6 @@ export const FormValidation = {
         required,
       },
       client_email: {
-        required,
-      },
-      client_address: {
-        required,
-      },
-      client_city: {
-        required,
-      },
-      client_postCode: {
-        required,
-      },
-      client_country: {
         required,
       },
       invoice_description: {
