@@ -13,106 +13,113 @@
       </svg>
       <span class="back-text">Go Back</span>
     </router-link>
-    <div class="status-container">
-      <p class="status-title">Status</p>
-      <p
-        class="status-body"
-        :class="[
-          invoice.status === 'Draft'
-            ? 'draft'
-            : invoice.status === 'Pending'
-            ? 'pending'
-            : 'paid',
-        ]"
-      >
-        <span class="status-circle">.</span> {{ invoice.status }}
-      </p>
-      <div class="btn-container">
-        <button
-          class="btn btn-edit"
-          v-if="invoice.status === 'Draft' || invoice.status === 'Pending'"
-          @click="editInvoice"
+    <pulse-loader class="loader" color="#fff" v-if="isLoading" />
+    <template v-else>
+      <div class="status-container">
+        <p class="status-title">Status</p>
+        <p
+          class="status-body"
+          :class="[
+            invoice.status === 'Draft'
+              ? 'draft'
+              : invoice.status === 'Pending'
+              ? 'pending'
+              : 'paid',
+          ]"
         >
-          Edit
-        </button>
-        <button class="btn btn-delete" @click="deleteItem">Delete bro</button>
-        <button
-          class="btn btn-mark"
-          v-if="invoice.status === 'Pending'"
-          @click="markAsPaid"
-        >
-          Mark as Paid
-        </button>
+          <span class="status-circle">.</span> {{ invoice.status }}
+        </p>
+        <div class="btn-container">
+          <button
+            class="btn btn-edit"
+            v-if="invoice.status === 'Draft' || invoice.status === 'Pending'"
+            @click="editInvoice"
+          >
+            Edit
+          </button>
+          <button class="btn btn-delete" @click="deleteItem">Delete</button>
+          <button
+            class="btn btn-mark"
+            v-if="invoice.status === 'Pending'"
+            @click="markAsPaid"
+          >
+            Mark as Paid
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="details">
-      <div class="project-info">
-        <p class="project-id">#{{ invoice.id }}</p>
-        <p class="project-desc">{{ invoice.invoice_description }}</p>
-      </div>
-      <div class="adress">
-        <p class="adress-street">{{ invoice.address.client_address }}</p>
-        <p class="adress-city">{{ invoice.address.city }}</p>
-        <p class="adress-postcode">{{ invoice.address.postcode }}</p>
-        <p class="adress-country">{{ invoice.address.country }}</p>
-      </div>
-      <div class="date">
-        <p class="date-label">Invoice Date</p>
-        <p class="date-body">{{ invoice.invoice_date }}</p>
-      </div>
-      <div class="name">
-        <p class="name-label">Bill to:</p>
-        <p class="name-body">{{ invoice.client_name }}</p>
-      </div>
-      <div class="mail">
-        <p class="mail-label">Sent to:</p>
-        <p class="mail-body">{{ invoice.client_email }}</p>
-      </div>
-      <div class="due">
-        <p class="due-label">Invoice Due</p>
-        <p class="due-body">{{ invoice.invoice_due }}</p>
-      </div>
-      <div class="client-adress">
-        <p class="client-street">{{ invoice.address.address }}</p>
-        <p class="client-city">{{ invoice.address.city }}</p>
-        <p class="client-postcode">{{ invoice.postcode }}</p>
-        <p class="client-country">{{ invoice.country }}</p>
-      </div>
-      <div class="item-container">
-        <p>Item Name</p>
-        <p>QTY.</p>
-        <p>Price</p>
-        <p>Total</p>
-        <div
-          class="project-item"
-          v-for="(item, index) in invoice.items"
-          :key="index"
-        >
-          <p class="prj-text">{{ item.name }}</p>
-          <p class="prj-text">{{ item.quantity }}</p>
-          <p class="prj-text">
-            {{ item.price }}
-          </p>
-          <p class="prj-text">
-            {{ item.total }}
+      <div class="details">
+        <div class="project-info">
+          <p class="project-id">#{{ invoice.id }}</p>
+          <p class="project-desc">{{ invoice.invoice_description }}</p>
+        </div>
+        <div class="adress">
+          <p class="adress-street">{{ invoice.address.client_address }}</p>
+          <p class="adress-city">{{ invoice.address.city }}</p>
+          <p class="adress-postcode">{{ invoice.address.postcode }}</p>
+          <p class="adress-country">{{ invoice.address.country }}</p>
+        </div>
+        <div class="date">
+          <p class="date-label">Invoice Date</p>
+          <p class="date-body">{{ invoice.invoice_date }}</p>
+        </div>
+        <div class="name">
+          <p class="name-label">Bill to:</p>
+          <p class="name-body">{{ invoice.client_name }}</p>
+        </div>
+        <div class="mail">
+          <p class="mail-label">Sent to:</p>
+          <p class="mail-body">{{ invoice.client_email }}</p>
+        </div>
+        <div class="due">
+          <p class="due-label">Invoice Due</p>
+          <p class="due-body">{{ invoice.invoice_due }}</p>
+        </div>
+        <div class="client-adress">
+          <p class="client-street">{{ invoice.address.address }}</p>
+          <p class="client-city">{{ invoice.address.city }}</p>
+          <p class="client-postcode">{{ invoice.postcode }}</p>
+          <p class="client-country">{{ invoice.country }}</p>
+        </div>
+        <div class="item-container">
+          <p>Item Name</p>
+          <p>QTY.</p>
+          <p>Price</p>
+          <p>Total</p>
+          <div
+            class="project-item"
+            v-for="(item, index) in invoice.items"
+            :key="index"
+          >
+            <p class="prj-text">{{ item.name }}</p>
+            <p class="prj-text">{{ item.quantity }}</p>
+            <p class="prj-text">
+              {{ item.price }}
+            </p>
+            <p class="prj-text">
+              {{ item.total }}
+            </p>
+          </div>
+        </div>
+        <div class="amount">
+          <p class="amount-text">Total Amount</p>
+          <p class="amount-number">
+            {{ invoice.total_price }}
           </p>
         </div>
       </div>
-      <div class="amount">
-        <p class="amount-text">Total Amount</p>
-        <p class="amount-number">
-          {{ invoice.total_price }}
-        </p>
-      </div>
-    </div>
+    </template>
   </main>
 </template>
 
 <script>
 import Axios from "axios";
 import { mapMutations } from "vuex";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 export default {
   name: "InvoiceDetail",
+  components: {
+    PulseLoader,
+  },
   props: {
     id: String,
     index: Number,
@@ -120,16 +127,21 @@ export default {
   data() {
     return {
       invoice: {},
+      isLoading: true,
     };
   },
   methods: {
     getData() {
+      this.isLoading = true;
       Axios.get(`/invoice/${this.id}`)
         .then((res) => {
           this.invoice = res.data;
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
     ...mapMutations([
@@ -164,6 +176,12 @@ export default {
 </script>
 
 <style scoped>
+.loader {
+  text-align: center;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+}
 .detail {
   width: 100%;
   height: 100%;
