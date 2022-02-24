@@ -152,11 +152,14 @@ export default {
     ]),
 
     deleteItem() {
-      let index = this.invoices.findIndex(
-        (item) => item.id === this.invoice.id
-      );
-      this.DELETE_INVOICE(index);
-      this.$router.push({ name: "Home" });
+      Axios.delete(`/invoice/${this.id}/delete`)
+        .then((res) => {
+          this.$router.push({ name: "Home" });
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     markAsPaid() {
       let index = this.invoices.findIndex(
