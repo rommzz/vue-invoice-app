@@ -167,7 +167,7 @@
             }"
             for="desc"
           >
-            Project invoice_description
+            Project Description
           </label>
           <input
             class="form__input"
@@ -283,7 +283,8 @@
             Save as Draft
           </button>
           <button v-show="!edit.status" class="btn-save" @click="save">
-            Save & Send
+            <clip-loader size="12px" v-if="isLoading" color="#fff" />
+            <template v-else> Save & Send </template>
           </button>
           <button v-show="edit.status" class="btn-save" @click="update">
             Save Changes
@@ -295,15 +296,20 @@
 </template>
 
 <script>
-import Axios from 'axios';
+import Axios from "axios";
 import { mapMutations, mapState } from "vuex";
 import { FormValidation } from "../mixins/FormValidation";
+import ClipLoader from "vue-spinner/src/ClipLoader.vue";
 
 export default {
   name: "FormComp",
+  components: {
+    ClipLoader,
+  },
   data() {
     return {
       invoiceForm: this.getClearInvoice(),
+      isLoading: false,
       projectItem: {
         name: null,
         quantity: 1,
@@ -359,6 +365,7 @@ export default {
       this.SET_MENU_IS_OPEN();
     },
     save() {
+      this.isLoading = true;
       // let validation = this.checkFormValidation();
       // console.log(validation);
       this.invoiceForm.address = {
@@ -367,30 +374,45 @@ export default {
         country: this.invoiceForm.client_country,
         postcode: this.invoiceForm.client_postCode,
       };
-      console.log(this.invoiceForm);
       this.calculateInvoiceDue();
       this.calculateTotalPrice();
       this.SET_MENU_IS_OPEN();
       Axios.post("invoice/store", this.invoiceForm)
         .then((res) => {
           console.log(res);
+          this.SET_MENU_IS_OPEN();
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
-      // if (validation) {
-      // }
     },
     update() {
-      let validation = this.checkFormValidation();
-      if (validation) {
-        let index = this.invoices.findIndex((item) => item.id === this.edit.id);
-        this.calculateInvoiceDue();
-        this.calculateTotalPrice();
-        this.invoiceForm.status = "Pending";
-        this.INVOICE_UPDATE({ index: index, info: this.invoiceForm });
-        this.SET_MENU_IS_OPEN();
-      }
+			this.isLoading = true;
+      // let validation = this.checkFormValidation();
+      // console.log(validation);
+      this.invoiceForm.address = {
+        client_address: this.invoiceForm.client_address,
+        city: this.invoiceForm.client_city,
+        country: this.invoiceForm.client_country,
+        postcode: this.invoiceForm.client_postCode,
+      };
+      this.calculateInvoiceDue();
+      this.calculateTotalPrice();
+      this.SET_MENU_IS_OPEN();
+			Axios.put(`invoice/${this.edit.id}/update`, this.invoiceForm)
+				.then((res) => {
+					console.log(res);
+					this.SET_MENU_IS_OPEN();
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
     },
     calculateInvoiceDue() {
       let invoice_date = Date.parse(this.invoiceForm.invoice_date);
@@ -432,10 +454,35 @@ export default {
   watch: {
     edit() {
       if (this.edit.status) {
-        let invoiceToEdit = this.invoices.find(
-          (item) => item.id === this.edit.id
-        );
-        this.invoiceForm = JSON.parse(JSON.stringify(invoiceToEdit));
+        this.isLoading = true;
+        Axios.get(`invoice/${this.edit.id}`)
+          .then((res) => {
+            this.invoiceForm = res.data;
+            this.invoiceForm.invoice_date = new Date(
+              this.invoiceForm.invoice_date
+            )
+              .toISOString()
+              .slice(0, 10);
+            this.invoiceForm.invoice_due = new Date(
+              this.invoiceForm.invoice_due
+            )
+              .toISOString()
+              .slice(0, 10);
+            this.invoiceForm.items.forEach((item) => {
+              item.total = item.quantity * item.price;
+            });
+            this.invoiceForm.client_address = this.invoiceForm.address.client_address;
+            this.invoiceForm.client_city = this.invoiceForm.address.city;
+            this.invoiceForm.client_country = this.invoiceForm.address.country;
+            this.invoiceForm.client_postCode = this.invoiceForm.address.postcode;
+            this.focusInput();
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
       } else {
         this.invoiceForm = this.getClearInvoice();
       }
