@@ -2,12 +2,31 @@
   <main class="home">
     <InvoicesHeader class="header" />
     <div class="invoices-container">
-      <InvoiceShort
-        v-for="(item, index) in data"
-        :key="item.id"
-        :invoiceItem="item"
-        :index="index"
-      />
+      <pulse-loader class="loader" color="#fff" v-if="isLoading" />
+      <template v-else>
+				<template v-if="currentData.total">
+					<InvoiceShort
+						v-for="(item, index) in data"
+						:key="item.id"
+						:invoiceItem="item"
+						:index="index"
+					/>
+					<b-pagination
+						@change="(v) => getData(v, filter)"
+						:total="currentData.total"
+						:per-page="currentData.per_page"
+						v-model="currentPage"
+						range-before="2"
+						range-after="2"
+					>
+					</b-pagination>
+				</template>
+				<template v-else>
+					<div class="no-data">
+						<p>Tidak ada data</p>
+					</div>
+				</template>
+      </template>
     </div>
   </main>
 </template>
@@ -17,6 +36,7 @@ import Axios from "axios";
 import { mapGetters, mapMutations, mapState } from "vuex";
 import InvoicesHeader from "../components/InvoicesHeader.vue";
 import InvoiceShort from "../components/InvoiceShort.vue";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 export default {
   name: "Home",
@@ -24,51 +44,71 @@ export default {
   components: {
     InvoicesHeader,
     InvoiceShort,
+    PulseLoader,
   },
   data() {
     return {
       data: [],
+      currentPage: 1,
       currentData: {},
+      isLoading: false,
     };
   },
   computed: {
     ...mapGetters(["filteredInvoices"]),
-    ...mapState(["filter"]),
+    ...mapState(["filter", "refresh"]),
   },
   methods: {
-    ...mapMutations(["SET_EDIT"]),
-    getData(filter) {
+    ...mapMutations(["SET_EDIT", 'REFRESH_LIST']),
+    getData(page, filter) {
       this.SET_EDIT({ status: false });
+      this.isLoading = true;
       this.data = [];
       this.currentData = {};
-      console.log(filter);
-      Axios.get("/invoice", {
-        params: filter,
+      Axios.get("/invoice?page=" + page, {
+        params: {
+          filter: filter,
+        },
       })
         .then((r) => {
-          console.log(r);
           this.data = r.data.data;
           this.currentData = r.data;
         })
         .catch((e) => {
           console.log(e);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },
   watch: {
     filter(val) {
-      console.log(val);
-      this.getData({ filter: val });
+      this.currentPage = 1;
+      this.getData((this.currentPage = 1), val);
     },
+		refresh(val) {
+			if (val) {
+				this.getData(1);
+				this.REFRESH_LIST();
+				this.currentPage = 1;
+			}
+		},
   },
   created() {
-    this.getData();
+    this.getData(1);
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.loader {
+  text-align: center;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+}
 .home {
   padding: 50px 150px 50px 220px;
   height: 100vh;

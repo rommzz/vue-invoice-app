@@ -1,0 +1,27 @@
+@import "~bulma/sass/utilities/all";
+@import "~bulma/sass/components/pagination";
+@import "~buefy/src/scss/components/pagination";
+
+$primary: #7b5cfa;
+
+.pagination-link.is-current {
+	background-color: $primary;
+	border-color: $primary;
+}
+
+.pagination-previous, .pagination-next, .pagination-link, .pagination-previous:hover, .pagination-next:hover, .pagination-link:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+.pagination .pagination-next::after {
+	content: 'Next';
+}
+
+.pagination .pagination-previous::after {
+	content: 'Previous';
+}
+
+.pagination-previous[disabled], .pagination-next[disabled], .pagination-link[disabled] {
+	color: #000;
+}
