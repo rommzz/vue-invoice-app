@@ -10,8 +10,12 @@ export default new Vuex.Store({
     edit: { status: false, id: null },
     invoices: [...dummyData],
     filter: [],
+		refresh: false,
   },
   mutations: {
+		REFRESH_LIST(state) {
+			state.refresh = !state.refresh;
+		},
     SET_MENU_IS_OPEN(state) {
       state.menuIsOpen = !state.menuIsOpen;
     },

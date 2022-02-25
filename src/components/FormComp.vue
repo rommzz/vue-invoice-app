@@ -345,7 +345,7 @@ export default {
         status: "Pending",
       };
     },
-    ...mapMutations(["SET_MENU_IS_OPEN"]),
+    ...mapMutations(["SET_MENU_IS_OPEN", "REFRESH_LIST"]),
     focusInput() {
       this.$refs.nextInput.focus();
     },
@@ -374,6 +374,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.SET_MENU_IS_OPEN();
+					this.REFRESH_LIST();
         })
         .catch((err) => {
           console.log(err);
