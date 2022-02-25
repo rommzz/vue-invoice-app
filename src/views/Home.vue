@@ -14,7 +14,7 @@
 
 <script>
 import Axios from "axios";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import InvoicesHeader from "../components/InvoicesHeader.vue";
 import InvoiceShort from "../components/InvoiceShort.vue";
 
@@ -33,21 +33,36 @@ export default {
   },
   computed: {
     ...mapGetters(["filteredInvoices"]),
+    ...mapState(["filter"]),
   },
   methods: {
     ...mapMutations(["SET_EDIT"]),
+    getData(filter) {
+      this.SET_EDIT({ status: false });
+      this.data = [];
+      this.currentData = {};
+      console.log(filter);
+      Axios.get("/invoice", {
+        params: filter,
+      })
+        .then((r) => {
+          console.log(r);
+          this.data = r.data.data;
+          this.currentData = r.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+  },
+  watch: {
+    filter(val) {
+      console.log(val);
+      this.getData({ filter: val });
+    },
   },
   created() {
-    this.SET_EDIT({ status: false });
-    Axios.get("/invoice")
-      .then((r) => {
-        console.log(r);
-        this.data = r.data.data;
-        this.currentData = r.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this.getData();
   },
 };
 </script>
