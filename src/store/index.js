@@ -6,21 +6,29 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    userForm: false,
     menuIsOpen: false,
     edit: { status: false, id: null },
+    editUser: { status: false, id: null },
     invoices: [...dummyData],
     filter: [],
-		refresh: false,
+    refresh: false,
   },
   mutations: {
-		REFRESH_LIST(state) {
-			state.refresh = !state.refresh;
-		},
+    REFRESH_LIST(state) {
+      state.refresh = !state.refresh;
+    },
     SET_MENU_IS_OPEN(state) {
       state.menuIsOpen = !state.menuIsOpen;
     },
+    SET_USER_IS_OPEN(state) {
+      state.userForm = !state.userForm;
+    },
     SET_EDIT(state, payload) {
       state.edit = { ...payload };
+    },
+    SET_EDIT_USER(state, payload) {
+      state.editUser = { ...payload };
     },
     SET_INVOICES(state, payload) {
       state.invoices.push(payload);

@@ -1,11 +1,28 @@
 <template>
   <div class="header">
-    <div class="logo-container">
-      <router-link :to="{ name: 'Home' }">
-        <div class="logo">
-          <div class="logo-rect"></div>
-        </div>
-      </router-link>
+    <div>
+      <div class="logo-container" style="margin-bottom: 2em">
+        <router-link :to="{ name: 'Home' }">
+          <svg
+            class="icon"
+            style="width: 24px; height: 24px"
+            viewBox="0 0 24 24"
+          >
+            <path fill="currentColor" :d="mdiFile" />
+          </svg>
+        </router-link>
+      </div>
+      <div class="logo-container">
+        <router-link :to="{ name: 'UserList' }">
+          <svg
+            class="icon"
+            style="width: 24px; height: 24px"
+            viewBox="0 0 24 24"
+          >
+            <path fill="currentColor" :d="mdiAccountMultiple" />
+          </svg>
+        </router-link>
+      </div>
     </div>
     <div class="user-info">
       <a href="https://github.com/fatihozoglu" target="_blank">
@@ -22,14 +39,28 @@
 </template>
 
 <script>
+import { mdiFile, mdiAccountMultiple } from "@mdi/js";
 export default {
   name: "HeaderComp",
   props: {},
+  data() {
+    return {
+      mdiFile: mdiFile,
+      mdiAccountMultiple: mdiAccountMultiple
+    };
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.icon {
+  cursor: pointer;
+  color: #fff;
+}
+.icon:hover {
+  color: #1e2139;
+}
 .header {
   height: 100vh;
   width: 103px;

@@ -2,6 +2,20 @@ import { required } from "vuelidate/lib/validators";
 
 export const FormValidation = {
   validations: {
+    form: {
+      name: {
+        required,
+      },
+      email: {
+        required,
+      },
+      password: {
+        required,
+      },
+      password_repeat: {
+        required,
+      },
+    },
     invoiceForm: {
       address: {
         client_address: {

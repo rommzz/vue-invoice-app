@@ -2,6 +2,7 @@
   <div class="app" :class="{ dark: menuIsOpen }">
     <HeaderComp />
     <FormComp />
+    <UserFormComp />
     <router-view />
   </div>
 </template>
@@ -9,6 +10,7 @@
 <script>
 import HeaderComp from "./components/HeaderComp.vue";
 import FormComp from "./components/FormComp.vue";
+import UserFormComp from "./components/UserFormComp.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -16,9 +18,10 @@ export default {
   components: {
     HeaderComp,
     FormComp,
+    UserFormComp,
   },
   computed: {
-    ...mapState(["menuIsOpen"]),
+    ...mapState(["menuIsOpen", "userForm"]),
   },
 };
 </script>
