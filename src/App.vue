@@ -1,10 +1,11 @@
 <template>
-  <div class="app" :class="{ dark: menuIsOpen }">
+  <div v-if="$route.name !== 'Login'" class="app" :class="{ dark: menuIsOpen }">
     <HeaderComp />
     <FormComp />
     <UserFormComp />
     <router-view />
   </div>
+  <router-view v-else />
 </template>
 
 <script>

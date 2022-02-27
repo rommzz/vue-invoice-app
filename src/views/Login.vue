@@ -1,46 +1,13 @@
 <template>
-  <transition name="slide-fade">
-    <div class="form-container" v-show="userForm">
-      <h2>Buat User</h2>
-      <form class="form">
+  <main class="home">
+    <div class="invoice-container">
+      <form @submit.prevent class="form">
+        <h2>Login</h2>
         <div class="input-item">
-          <label
-            class="form__label"
-            :class="{
-              error: $v.form.name.$error,
-            }"
-            for="client-name"
-          >
-            Nama
-          </label>
+          <label class="form__label" for="client-email"> Email </label>
           <input
             class="form__input"
-            :class="{
-              errorborder: $v.form.name.$error,
-            }"
-            v-model.trim="$v.form.name.$model"
-            type="text"
-            name="name"
-            id="name"
-          />
-        </div>
-
-        <div class="input-item">
-          <label
-            class="form__label"
-            :class="{
-              error: $v.form.email.$error,
-            }"
-            for="client-email"
-          >
-            Email
-          </label>
-          <input
-            class="form__input"
-            :class="{
-              errorborder: $v.form.email.$error,
-            }"
-            v-model.trim="$v.form.email.$model"
+            v-model.trim="form.email"
             type="email"
             name="email"
             id="client-email"
@@ -48,84 +15,33 @@
         </div>
 
         <div class="input-item">
-          <label
-            class="form__label"
-            :class="{
-              error: $v.form.password.$error,
-            }"
-            for="client-street"
-          >
-            Password
-          </label>
+          <label class="form__label" for="client-password"> Password </label>
           <input
             class="form__input"
-            :class="{
-              errorborder: $v.form.password.$error,
-            }"
-            v-model.trim="$v.form.password.$model"
+            v-model.trim="form.password"
             type="password"
             name="password"
-            id="client-street"
+            id="client-password"
           />
         </div>
 
         <div class="input-item">
-          <label
-            class="form__label"
-            :class="{
-              error: $v.form.password_repeat.$error,
-            }"
-            for="client-street"
-          >
-            Ulangi Password
-          </label>
-          <input
-            class="form__input"
-            :class="{
-              errorborder: $v.form.password_repeat.$error,
-            }"
-            v-model.trim="$v.form.password_repeat.$model"
-            type="password"
-            name="clientStreet"
-            id="client-street"
-          />
-        </div>
-
-        <div class="input-checkbox">
-          <input
-            style="margin-right: 0.5em"
-            v-model.trim="form.is_admin"
-            type="checkbox"
-            name="clientStreet"
-            id="checkbox"
-          />
-          <label for="checkbox"> Admin </label>
+          <button class="submit" type="submit" value="Login" @click="login()">
+            <clip-loader color="white" size="1em" v-if="isLoading" />
+            <template v-else> Login </template>
+          </button>
         </div>
       </form>
-      <div class="btn-container">
-        <button class="btn-discard" @click="SET_USER_IS_OPEN">Buang</button>
-        <div>
-          <button v-show="!editUser.status" class="btn-save" @click="save">
-            <clip-loader size="12px" v-if="isLoading" color="#fff" />
-            <template v-else> Simpan </template>
-          </button>
-          <button v-show="editUser.status" class="btn-save" @click="update">
-            Simpan Perubahan
-          </button>
-        </div>
-      </div>
     </div>
-  </transition>
+  </main>
 </template>
 
 <script>
-import Axios from "axios";
-import { mapMutations, mapState } from "vuex";
+// import Axios from "axios";
 import ClipLoader from "vue-spinner/src/ClipLoader.vue";
-import { FormValidation } from "../mixins/FormValidation";
 
 export default {
-  name: "UserFormComp",
+  name: "Login",
   components: {
     ClipLoader,
   },
@@ -135,86 +51,15 @@ export default {
       isLoading: false,
     };
   },
-  mixins: [FormValidation],
-  computed: {
-    ...mapState(["userForm", "editUser"]),
-  },
   methods: {
     getClearForm() {
       return {
-        name: null,
         email: null,
-        is_admin: false,
         password: null,
-        password_repeat: null,
       };
     },
-    ...mapMutations(["SET_USER_IS_OPEN", "REFRESH_LIST"]),
-    focusInput() {
-      this.$refs.nextInput.focus();
-    },
-    save() {
-      this.isLoading = true;
-      // let validation = this.checkFormValidation();
-      // console.log(validation);
-      Axios.post("user/register", this.form)
-        .then((res) => {
-          console.log(res);
-          this.SET_USER_IS_OPEN();
-          // this.REFRESH_LIST();
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    update() {
-      this.isLoading = true;
-      // let validation = this.checkFormValidation();
-      // console.log(validation);
-      Axios.put(`user/${this.editUser.id}/update`, this.form)
-        .then((res) => {
-          console.log(res);
-          this.SET_USER_IS_OPEN();
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    checkFormValidation() {
-      if (this.$v.$dirty && !this.$v.$invalid) {
-        return true;
-      } else {
-        this.$v.$touch();
-        return false;
-      }
-    },
-  },
-  watch: {
-    editUser() {
-      console.log(this.editUser);
-      if (this.editUser.status) {
-        this.isLoading = true;
-        Axios.get(`user/${this.editUser.id}`)
-          .then((res) => {
-            this.form = res.data;
-            this.form.is_admin = this.form.is_admin === "1";
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
-      } else {
-        this.form = this.getClearForm();
-      }
-      this.$v.$reset;
+    login() {
+      console.log(this.form);
     },
   },
 };
@@ -222,39 +67,29 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.form-container {
+.submit {
+  background-color: #7b5cfa;
+}
+.submit:hover {
+  background-color: #9175ff;
+}
+.invoice-container {
+  top: 50%;
   position: absolute;
-  top: 0;
-  left: 0;
-  max-width: 720px;
-  height: 100vh;
-  padding: 56px 32px 2rem 129px;
-  display: flex;
-  flex-direction: column;
-  background-color: #141624;
-  border-top-right-radius: 24px;
-  border-bottom-right-radius: 24px;
-  color: white;
-  z-index: 2;
-}
-h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-h3 {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: rgb(123, 92, 250);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  width: 30vw;
 }
 form {
   display: flex;
   flex-direction: column;
-  padding: 0 24px 10px 10px;
   gap: 24px;
   height: 100%;
-  overflow-y: scroll;
   overflow-x: hidden;
+  padding: 30px;
+  border-radius: 20px;
+  background: #1e2238;
+  color: white;
 }
 label {
   font-size: 0.75rem;
@@ -278,9 +113,6 @@ select {
 .input-item {
   display: flex;
   flex-direction: column;
-}
-.input-checkbox {
-  display: flex;
 }
 .input-group {
   display: flex;

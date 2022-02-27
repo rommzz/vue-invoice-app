@@ -4,7 +4,7 @@
       <h1 class="title-name">User</h1>
       <p class="title-total">Total User: {{ filteredInvoices.length }}</p>
     </div>
-    <button class="add-invoice" @click="SET_USER_IS_OPEN">
+    <button class="add-invoice" @click="open()">
       Buat <span class="remove">User</span><span class="symbol">+</span>
     </button>
   </div>
@@ -26,13 +26,17 @@ export default {
   },
   props: {},
   methods: {
-    ...mapMutations(["SET_USER_IS_OPEN", "SET_FILTER"]),
+    ...mapMutations(["SET_USER_IS_OPEN", "SET_EDIT_USER", "SET_FILTER"]),
     closeFilterMenu(e) {
       if (this.filterIsOpen === true) {
         if (!this.$refs.filter.contains(e.target)) {
           this.filterIsOpen = false;
         }
       }
+    },
+    open() {
+      this.SET_USER_IS_OPEN();
+      this.SET_EDIT_USER();
     },
   },
   watch: {

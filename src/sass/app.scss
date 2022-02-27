@@ -25,3 +25,8 @@ $primary: #7b5cfa;
 .pagination-previous[disabled], .pagination-next[disabled], .pagination-link[disabled] {
 	color: #000;
 }
+
+.primary{
+	background-color: $primary;
+	border-color: $primary;
+}
