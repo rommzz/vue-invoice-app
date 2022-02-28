@@ -2,7 +2,7 @@
   <div class="invoices-header">
     <div class="title">
       <h1 class="title-name">Invoices</h1>
-      <p class="title-total">Total invoice: {{ filteredInvoices.length }}</p>
+      <p class="title-total">Total invoice: {{ $store.state.totalInvoice }}</p>
     </div>
     <div class="filter" ref="filter">
       <div @click="filterIsOpen = !filterIsOpen" class="filter-btn">
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "InvoicesHeader",
   data() {
@@ -56,7 +56,6 @@ export default {
   },
   computed: {
     ...mapState(["filter"]),
-    ...mapGetters(["filteredInvoices"]),
   },
   props: {},
   methods: {

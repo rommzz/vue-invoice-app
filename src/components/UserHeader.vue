@@ -2,7 +2,7 @@
   <div class="invoices-header">
     <div class="title">
       <h1 class="title-name">User</h1>
-      <p class="title-total">Total User: {{ filteredInvoices.length }}</p>
+      <p class="title-total">Total User: {{ $store.state.totalUser }}</p>
     </div>
     <button class="add-invoice" @click="open()">
       Buat <span class="remove">User</span><span class="symbol">+</span>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapMutations } from "vuex";
 export default {
   name: "InvoicesHeader",
   data() {
@@ -20,36 +20,13 @@ export default {
       selectedFilter: [],
     };
   },
-  computed: {
-    ...mapState(["filter"]),
-    ...mapGetters(["filteredInvoices"]),
-  },
   props: {},
   methods: {
     ...mapMutations(["SET_USER_IS_OPEN", "SET_EDIT_USER", "SET_FILTER"]),
-    closeFilterMenu(e) {
-      if (this.filterIsOpen === true) {
-        if (!this.$refs.filter.contains(e.target)) {
-          this.filterIsOpen = false;
-        }
-      }
-    },
     open() {
       this.SET_USER_IS_OPEN();
       this.SET_EDIT_USER();
     },
-  },
-  watch: {
-    selectedFilter() {
-      this.SET_FILTER(this.selectedFilter);
-    },
-  },
-  created() {
-    window.addEventListener("click", this.closeFilterMenu);
-    this.selectedFilter = [...this.filter];
-  },
-  beforeDestroy() {
-    window.removeEventListener("click", this.closeFilterMenu);
   },
 };
 </script>

@@ -33,7 +33,7 @@
 
 <script>
 import Axios from "axios";
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import InvoicesHeader from "../components/InvoicesHeader.vue";
 import InvoiceShort from "../components/InvoiceShort.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
@@ -55,11 +55,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filteredInvoices"]),
     ...mapState(["filter", "refresh"]),
   },
   methods: {
-    ...mapMutations(["SET_EDIT", "REFRESH_LIST"]),
+    ...mapMutations(["SET_EDIT", "REFRESH_LIST", "SET_TOTAL_INVOICE"]),
     getData(page, filter) {
       this.SET_EDIT({ status: false });
       this.isLoading = true;
@@ -73,6 +72,7 @@ export default {
         .then((r) => {
           this.data = r.data.data;
           this.currentData = r.data;
+          this.SET_TOTAL_INVOICE(this.currentData.total);
         })
         .catch((e) => {
           console.log(e);

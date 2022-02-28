@@ -1,16 +1,18 @@
+import Axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
-import dummyData from "./dummyData";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    totalInvoice: 0,
+    totalUser: 0,
+    user: null,
     userForm: false,
     menuIsOpen: false,
     edit: { status: false, id: null },
     editUser: { status: false, id: null },
-    invoices: [...dummyData],
     filter: [],
     refresh: false,
   },
@@ -44,6 +46,12 @@ export default new Vuex.Store({
     },
     INVOICE_UPDATE(state, payload) {
       state.invoices.splice(payload.index, 1, { ...payload.info });
+    },
+    SET_TOTAL_INVOICE(state, payload) {
+      state.totalInvoice = payload;
+    },
+    SET_TOTAL_USER(state, payload) {
+      state.totalUser = payload;
     },
   },
   actions: {
