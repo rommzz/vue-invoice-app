@@ -59,7 +59,19 @@ export default {
       };
     },
     login() {
-      console.log(this.form);
+      this.isLoading = true;
+      this.$store
+        .dispatch("login", this.form)
+        .then(() => {
+          this.$router.push(this.$route.query.redirect || { name: "home" });
+        })
+        .catch((err) => {
+          console.log(err.message);
+        })
+        .finally(() => {
+          this.submitLoading = false;
+          this.isLoading = false;
+        });
     },
   },
 };

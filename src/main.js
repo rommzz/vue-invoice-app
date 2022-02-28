@@ -1,10 +1,11 @@
 import Vue from "vue";
 import "./plugins/axios";
-import store from "./store";	
+import store from "./store";
 import App from "./App.vue";
 import router from "./router";
 import Vuelidate from "vuelidate";
-import { Pagination } from 'buefy'
+import { Pagination } from "buefy";
+
 // import 'buefy/dist/buefy.css'
 import "./sass/app.scss";
 
